@@ -25,7 +25,7 @@ namespace LabelPrinter
 
         private void initializeConfig()
         {
-            if (File.Exists("LabelPrinter.config"))
+            if (File.Exists(@"LabelPrinter.config"))
             {
                 try
                 {
@@ -42,7 +42,7 @@ namespace LabelPrinter
             }
             else
             {
-                config.Text = "AKAFÖ Diamant";
+                config.Text = @"AKAFÖ Diamant";
                 config.Nummernkreis = 101;
                 config.Anfang = 1;
                 config.Ende = 130;
@@ -214,6 +214,23 @@ namespace LabelPrinter
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             XmlSerializer ser = new XmlSerializer(typeof(Config));
+        }
+
+        private void überToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 box = new AboutBox1();
+
+            box.ShowDialog();
+        }
+
+        private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void experteneinstellungenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
