@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Xml.Serialization;
 
 namespace LabelPrinter
 {
+    [XmlRootAttribute("LabelPrinter")]
     public class Config
     {
         public Config(string nText, int nNummernkreis, int nAnfang, int nEnde, int nOffsetX, int nOffsetY, float nEtikettenBreite, float nEtikettenHoehe, float nRandLinks,

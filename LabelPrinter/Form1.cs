@@ -1,13 +1,8 @@
 ﻿using BarcodeLib;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -16,11 +11,15 @@ namespace LabelPrinter
     public partial class Form1 : Form
     {
         private int actualPage = 1;
-        private Config config = new Config();
+        public Config config = new Config();
 
         public Form1()
         {
             InitializeComponent();
+        }
+
+        public Config getConfigObj() {
+            return config;
         }
 
         private void initializeConfig()
@@ -99,6 +98,8 @@ namespace LabelPrinter
             }
 
             textBox2.Text = Math.Ceiling((numericUpDown3.Value - numericUpDown2.Value) / 65).ToString();
+
+            config.Anfang = Convert.ToInt32(numericUpDown2.Value);
         }
 
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
@@ -110,6 +111,8 @@ namespace LabelPrinter
             }
 
             textBox2.Text = Math.Ceiling((numericUpDown3.Value - numericUpDown2.Value) / 65).ToString();
+
+            config.Ende = Convert.ToInt32(numericUpDown3.Value);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -140,8 +143,8 @@ namespace LabelPrinter
             const float etikettenHoehe = (float)(21.2);
             const float randOben = (float)(10.7);
 
-            Font fontCompany = new Font("SansSerif", 12, FontStyle.Regular);
-            Font fontSerial = new Font("Courier New", 12, FontStyle.Regular);
+            Font fontCompany = new Font(config.FontCompanyName, config.FontCompanySize);
+            Font fontSerial = new Font(config.FontSerialName, config.FontSerialSize);
             Barcode barcode = new Barcode();
             Image barcodeImage;
             Pen pen = new Pen(Color.Black);
@@ -186,7 +189,7 @@ namespace LabelPrinter
                 }
             }
 
-            if (checkBox1.Checked)
+            if (gitterDruckenToolStripMenuItem.Checked)
             {
                 for (int x = 0; x <= 5; x++)
                 {
@@ -213,7 +216,13 @@ namespace LabelPrinter
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            XmlSerializer ser = new XmlSerializer(typeof(Config));
+            try
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(Config));
+                TextWriter WriteFileStream = new StreamWriter(@"LabelPrinter.config");
+                ser.Serialize(WriteFileStream, config);
+            }
+            catch { }
         }
 
         private void überToolStripMenuItem_Click(object sender, EventArgs e)
@@ -230,7 +239,20 @@ namespace LabelPrinter
 
         private void experteneinstellungenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Form2 expertenEinstellungen = new Form2();
 
+            expertenEinstellungen.TheParent = this;
+            expertenEinstellungen.ShowDialog();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            config.Text = textBox1.Text;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            config.Nummernkreis = Convert.ToInt32(numericUpDown1.Value);
         }
     }
 }
