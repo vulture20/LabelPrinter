@@ -43,9 +43,11 @@ namespace LabelPrinter
 
         private void button3_Click(object sender, EventArgs e)
         {
-            fontDialog1.ShowDialog();
-            textBox5.Text = fontDialog1.Font.Name;
-            textBox7.Text = Math.Round(fontDialog1.Font.SizeInPoints).ToString();
+            if (fontDialog1.ShowDialog() == DialogResult.OK)
+            {
+                textBox5.Text = fontDialog1.Font.Name;
+                textBox7.Text = Math.Round(fontDialog1.Font.SizeInPoints).ToString();
+            }
         }
 
         private void Form2_Shown(object sender, EventArgs e)
@@ -64,9 +66,11 @@ namespace LabelPrinter
 
         private void button4_Click(object sender, EventArgs e)
         {
-            fontDialog1.ShowDialog();
-            textBox6.Text = fontDialog1.Font.Name;
-            textBox8.Text = Math.Round(fontDialog1.Font.SizeInPoints).ToString();
+            if (fontDialog1.ShowDialog() == DialogResult.OK)
+            {
+                textBox6.Text = fontDialog1.Font.Name;
+                textBox8.Text = Math.Round(fontDialog1.Font.SizeInPoints).ToString();
+            }
         }
     }
 }
